@@ -1,25 +1,45 @@
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  faCheck,
+  faExclamation,
+  faExclamationTriangle,
+  faInfo,
+  faSpinner,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
+import { SnackbarProvider } from 'notistack';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import RoutesApp from './components/routes/Routes';
+import { GlobalStyle } from './components/style/GlobalStyle';
+import { NotificationsProvider } from './contexts/notificationsContext';
+
+library.add(
+  faSpinner,
+  faCheck,
+  faExclamation,
+  faExclamationTriangle,
+  faInfo,
+  faTimes
+);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <SnackbarProvider
+        dense
+        domRoot={document.getElementById('modal')}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+      >
+        <NotificationsProvider>
+          <GlobalStyle />
+          <RoutesApp />
+        </NotificationsProvider>
+      </SnackbarProvider>
+    </>
   );
 }
 
