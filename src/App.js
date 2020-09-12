@@ -11,6 +11,7 @@ import { SnackbarProvider } from 'notistack';
 import React from 'react';
 
 import FooterApp from './components/footer/FooterApp';
+import HeaderApp from './components/header/HeaderApp';
 import RoutesApp from './components/routes/Routes';
 import { GlobalStyle } from './components/style/GlobalStyle';
 import { NotificationsProvider } from './contexts/notificationsContext';
@@ -37,6 +38,7 @@ function App() {
             >
                 <NotificationsProvider>
                     <GlobalStyle />
+                    <HeaderApp />
                     <RoutesApp />
                     <FooterApp />
                 </NotificationsProvider>
