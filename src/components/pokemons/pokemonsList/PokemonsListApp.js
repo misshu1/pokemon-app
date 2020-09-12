@@ -3,6 +3,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useNotificationsContext } from '../../../contexts/notificationsContext';
+import SpinnerApp from '../../common/SpinnerApp';
 import PokemonApp from '../pokemon/PokemonApp';
 import { Container } from './style';
 
@@ -21,6 +22,8 @@ const PokemonsListApp = () => {
     const [pokemonsNames, setPokemonsNames] = useState(null);
     const [pokemons, setPokemons] = useState(null);
     const [totalPokemons, setTotalPokemons] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
     const { showError } = useNotificationsContext();
     const classes = useStyles();
 
@@ -51,11 +54,15 @@ const PokemonsListApp = () => {
         const offset = pageNum * ITEMS_ON_PAGE - ITEMS_ON_PAGE;
         const url = pokemonPageUrl(offset);
 
-        getPokemons(url);
+        if (currentPage !== pageNum) {
+            setCurrentPage(pageNum);
+            getPokemons(url);
+        }
     };
 
     const getPokemons = async (url = pokemonPageUrl()) => {
         setPokemonsNames([]);
+        setIsLoading(true);
 
         try {
             const data = await fetch(url);
@@ -103,19 +110,25 @@ const PokemonsListApp = () => {
             .filter((item) => item.status === 'fulfilled')
             .map((item) => item.value);
 
+        if (dbPokemons.length !== 0) {
+            setIsLoading(false);
+        }
+
         setPokemons(dbPokemons);
+    };
+
+    const renderSpinners = () => {
+        let spinners = [];
+
+        for (let i = 0; i < ITEMS_ON_PAGE; i++) {
+            spinners = [...spinners, <SpinnerApp key={i} />];
+        }
+
+        return spinners;
     };
 
     return (
         <>
-            <Container>
-                {pokemons &&
-                    pokemons.map((pokemon) => {
-                        return (
-                            <PokemonApp key={pokemon.id} pokemon={pokemon} />
-                        );
-                    })}
-            </Container>
             <Pagination
                 count={getTotalPages()}
                 variant='outlined'
@@ -125,6 +138,29 @@ const PokemonsListApp = () => {
                     root: classes.paginationRoot,
                 }}
                 onChange={handlePageChange}
+                page={currentPage}
+            />
+
+            <Container>
+                {!isLoading &&
+                    pokemons.map((pokemon) => {
+                        return (
+                            <PokemonApp key={pokemon.id} pokemon={pokemon} />
+                        );
+                    })}
+                {isLoading && renderSpinners()}
+            </Container>
+
+            <Pagination
+                count={getTotalPages()}
+                variant='outlined'
+                shape='rounded'
+                classes={{
+                    ul: classes.paginationUl,
+                    root: classes.paginationRoot,
+                }}
+                onChange={handlePageChange}
+                page={currentPage}
             />
         </>
     );

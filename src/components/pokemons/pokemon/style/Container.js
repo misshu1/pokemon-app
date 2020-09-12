@@ -8,6 +8,7 @@ export const Container = styled.div`
     width: 100%;
     height: 100%;
     box-shadow: 0px 0px 4px -2px #202020;
+    border-radius: 0.5rem;
 
     &&:hover {
         cursor: pointer;
