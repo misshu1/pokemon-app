@@ -13,6 +13,22 @@ const useStyles = makeStyles({
     },
     paginationRoot: {
         margin: '2rem 0',
+        color: '#d6d8de !important',
+
+        '& button': {
+            border: '1px solid #d6d8de ',
+            color: '#d6d8de ',
+        },
+
+        '& div': {
+            color: '#d6d8de ',
+        },
+
+        '& .Mui-selected': {
+            backgroundColor: '#009bce',
+            color: '#fff',
+            border: '1px solid #fff',
+        },
     },
 });
 
@@ -121,7 +137,12 @@ const PokemonsListApp = () => {
         let spinners = [];
 
         for (let i = 0; i < ITEMS_ON_PAGE; i++) {
-            spinners = [...spinners, <SpinnerApp key={i} />];
+            spinners = [
+                ...spinners,
+                <div key={i} style={{ background: '#16192e' }}>
+                    <SpinnerApp />
+                </div>,
+            ];
         }
 
         return spinners;
