@@ -28,6 +28,10 @@ const useStyles = makeStyles({
             backgroundColor: '#009bce',
             color: '#fff',
             border: '1px solid #fff',
+
+            '&:hover': {
+                backgroundColor: '#0668c9',
+            },
         },
     },
 });
@@ -70,6 +74,7 @@ const PokemonsListApp = () => {
         const offset = pageNum * ITEMS_ON_PAGE - ITEMS_ON_PAGE;
         const url = pokemonPageUrl(offset);
 
+        // Prevent from fetching data when clicking the current page
         if (currentPage !== pageNum) {
             setCurrentPage(pageNum);
             getPokemons(url);
