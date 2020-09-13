@@ -10,8 +10,10 @@ const HeaderApp = () => {
 
     return ReactDOM.createPortal(
         <Container>
-            <div className='logo-container' onClick={() => navigate('/')}>
-                <LogoIcon width='3rem' height='3rem' />
+            <div className='content'>
+                <div className='logo-container' onClick={() => navigate('/')}>
+                    <LogoIcon width='3rem' height='3rem' />
+                </div>
             </div>
         </Container>,
         document.getElementById('header')
