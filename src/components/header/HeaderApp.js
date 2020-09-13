@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import LogoIcon from '../../assets/icons/LogoIcon';
+import { useGlobalContext } from '../../contexts/globalContext';
 import { Container, Form } from './style';
 import useSearchPokemonValidation from './useSearchPokemonValidation';
 
@@ -35,6 +36,7 @@ const INITIAL_STATE = {
 };
 
 const HeaderApp = () => {
+    const { updateSearchInput } = useGlobalContext();
     const {
         values,
         errors,
@@ -47,10 +49,15 @@ const HeaderApp = () => {
     const location = useLocation();
     const classes = useStyles();
 
+    const handleLogoClick = () => {
+        updateSearchInput('');
+        navigate('/');
+    };
+
     return ReactDOM.createPortal(
         <Container>
             <div className='content'>
-                <div className='logo-container' onClick={() => navigate('/')}>
+                <div className='logo-container' onClick={handleLogoClick}>
                     <LogoIcon width='3rem' height='3rem' />
                 </div>
 
