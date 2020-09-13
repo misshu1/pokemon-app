@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useGlobalContext } from '../../../contexts/globalContext';
 import { useNotificationsContext } from '../../../contexts/notificationsContext';
 import SpinnerApp from '../../common/SpinnerApp';
 import PokemonApp from '../pokemon/PokemonApp';
@@ -45,21 +46,35 @@ const PokemonsListApp = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const { showError } = useNotificationsContext();
+    const { searchInput } = useGlobalContext();
     const classes = useStyles();
 
     const pokemonPageUrl = useCallback((offset = 0) => {
         return `${process.env.REACT_APP_POKEMON_BASE_API}/pokemon?limit=${ITEMS_ON_PAGE}&offset=${offset}`;
     }, []);
 
+    // Get pokemon names
     useEffect(() => {
         getPokemons();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // Get pokemon information when we have their names
     useEffect(() => {
         getPokemonsInfo();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pokemonsNames]);
+
+    // When we type in input update the pokemon names array
+    useEffect(() => {
+        if (searchInput !== '') {
+            setTotalPokemons(null);
+            setPokemonsNames([searchInput]);
+        } else {
+            getPokemons();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchInput]);
 
     const getTotalPages = () => {
         if (!totalPokemons) {
@@ -169,7 +184,7 @@ const PokemonsListApp = () => {
 
             <Container>
                 {!isLoading &&
-                    pokemons.map((pokemon) => {
+                    pokemons?.map((pokemon) => {
                         return (
                             <PokemonApp key={pokemon.id} pokemon={pokemon} />
                         );

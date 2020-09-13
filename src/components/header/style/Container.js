@@ -11,10 +11,13 @@ export const Container = styled.div`
         height: 100%;
     }
 
+    .form-container {
+        margin: auto;
+    }
+
     .content {
         display: flex;
         justify-content: center;
-        flex-direction: column;
         max-width: 80rem;
         height: 100%;
         margin: 0 auto;

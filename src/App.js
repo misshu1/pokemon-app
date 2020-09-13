@@ -4,6 +4,7 @@ import {
     faExclamation,
     faExclamationTriangle,
     faInfo,
+    faSearch,
     faSpinner,
     faTimes
 } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +15,7 @@ import FooterApp from './components/footer/FooterApp';
 import HeaderApp from './components/header/HeaderApp';
 import RoutesApp from './components/routes/Routes';
 import { GlobalStyle } from './components/style/GlobalStyle';
+import { GlobalContextProvider } from './contexts/globalContext';
 import { NotificationsProvider } from './contexts/notificationsContext';
 
 library.add(
@@ -22,7 +24,8 @@ library.add(
     faExclamation,
     faExclamationTriangle,
     faInfo,
-    faTimes
+    faTimes,
+    faSearch
 );
 
 function App() {
@@ -36,12 +39,14 @@ function App() {
                     horizontal: 'right',
                 }}
             >
-                <NotificationsProvider>
-                    <GlobalStyle />
-                    <HeaderApp />
-                    <RoutesApp />
-                    <FooterApp />
-                </NotificationsProvider>
+                <GlobalContextProvider>
+                    <NotificationsProvider>
+                        <GlobalStyle />
+                        <HeaderApp />
+                        <RoutesApp />
+                        <FooterApp />
+                    </NotificationsProvider>
+                </GlobalContextProvider>
             </SnackbarProvider>
         </>
     );
