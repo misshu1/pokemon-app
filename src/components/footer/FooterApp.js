@@ -9,7 +9,7 @@ const FooterApp = () => {
         <Container>
             <div className='content'>
                 <a
-                    href='https://elevenwindows.dev'
+                    href='https://andreinedelus.com'
                     target='_blank'
                     rel='noopener noreferrer'
                     title='Eleven Windows'
